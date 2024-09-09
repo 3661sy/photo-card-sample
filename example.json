@@ -1,0 +1,26 @@
+[
+  {
+    "model": "photocard.PhotoCard",
+    "fields": {
+      "name": "test photocard 1",
+      "group_name": "test group 1",
+      "member_name": "test member 1"
+    }
+  },
+  {
+    "model": "photocard.PhotoCard",
+    "fields": {
+      "name": "test photocard 2",
+      "group_name": "test group 2",
+      "member_name": "test member 2"
+    }
+  },
+  {
+    "model": "photocard.PhotoCard",
+    "fields": {
+      "name": "test photocard 3",
+      "group_name": "test group 3",
+      "member_name": "test member 3"
+    }
+  }
+]
