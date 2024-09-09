@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -26,6 +27,7 @@ class UserRegisterSerializer(serializers.Serializer):
             raise ValidationError({"username": "이미 존재하는 username입니다."})
         return attrs
 
+    @transaction.atomic
     def create(self, validated_data):
         user = User.objects.create(username=validated_data['username'])
         user.set_password(validated_data['password'])
