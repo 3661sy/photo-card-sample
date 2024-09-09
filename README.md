@@ -20,6 +20,6 @@ pip install -r requirements.txt
 ## Set Test Data
 
 ```shell
-python3 manage.py migrate
-python3 manage.py loaddata example.json
+python manage.py migrate
+python manage.py loaddata example.json
 ```

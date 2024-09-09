@@ -12,17 +12,18 @@ class PhotoCard(models.Model):
         verbose_name_plural = verbose_name
 
 
+class SaleState(models.TextChoices):
+    ING = 'ING', '판매중'
+    END = 'END', '판매완료'
+
+
 class Sale(models.Model):
     photo_card = models.ForeignKey(PhotoCard, on_delete=models.CASCADE, related_name='photo_card')
 
     price = models.PositiveIntegerField(default=0, help_text='가격')
     fee = models.PositiveIntegerField(default=0, help_text='수수료')
 
-    SALE_STATE = (
-        ('ING', '판매중'),
-        ('END', '판매중')
-    )
-    state = models.CharField(max_length=8, choices=SALE_STATE, default='ING')
+    state = models.CharField(max_length=8, choices=SaleState.choices, default='ING')
 
     buyer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='buyer')
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='seller')
