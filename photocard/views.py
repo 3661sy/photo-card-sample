@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from cash.models import Cash
-from photocard.models import Sale
+from photocard.models import Sale, SaleState
 from photocard.serializers import SaleSerializer, SaleDetailSerializer
 
 
@@ -61,21 +61,25 @@ class PhotoCardBuyView(UpdateAPIView):
         instance = self.get_object()
 
         buyer = request.user
+        seller = instance.seller
+
+        if buyer == seller:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'user': '판매자가 구매자가 같을 수 없습니다.'})
+
         buyer_total_cash = Cash.objects.filter(
             user=buyer
         ).aggregate(total_cash=Sum('amount'))['total_cash']  # 구매자의 현재 소지금
 
-        seller = instance.seller
         total_price = instance.price + instance.fee
 
         if buyer_total_cash < total_price:  # 소지금이 구매할 포토카드의 총 가격보다 작을 경우 구매 불가
             return Response(
                 status=status.HTTP_400_BAD_REQUEST,
-                data={"price": "소지금이 부족하여 구매할 수 없습니다."}
+                data={'price': '소지금이 부족하여 구매할 수 없습니다.'}
             )
 
         instance.buyer = buyer
-        instance.state = 'END'
+        instance.state = SaleState.END
         instance.sold_date = timezone.now()
 
         Cash.objects.create(user=buyer, amount=-total_price)
