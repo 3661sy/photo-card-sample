@@ -21,6 +21,10 @@ class PhotoCardSaleListCreateView(ListCreateAPIView):
     Request Field:
         photo_card_id: int
         price: int
+
+    Query Parameter:
+        page: int, 페이지
+
     """
     permission_classes = [IsAuthenticated]
     queryset = Sale.objects.filter(state='ING').annotate(
