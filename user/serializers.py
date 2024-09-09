@@ -8,8 +8,8 @@ from cash.models import Cash
 
 
 class UserRegisterSerializer(serializers.Serializer):
-    username = serializers.CharField(required=True, write_only=True)
-    password = serializers.CharField(required=True, write_only=True)
+    username = serializers.CharField(required=True, write_only=True, help_text='사용자 이름')
+    password = serializers.CharField(required=True, write_only=True, help_text='비밀번호')
 
     access_token = serializers.CharField(read_only=True)
     refresh_token = serializers.CharField(read_only=True)
@@ -31,7 +31,7 @@ class UserRegisterSerializer(serializers.Serializer):
         user.set_password(validated_data['password'])
         user.save()
 
-        Cash.objects.create(user=user, amount=10000)
+        Cash.objects.create(user=user, amount=10000)  # 사용자 생성 시 10000원 제공
 
         return self._get_token(user)
 
@@ -40,7 +40,7 @@ class UserLoginSerializer(UserRegisterSerializer):
     def validate(self, attrs):
         user = authenticate(username=attrs['username'], password=attrs['password'])
         if not user:
-            raise ValidationError("해당 하는 사용자가 없습니다. username과 password를 확인하여 주십시오.")
+            raise ValidationError("해당하는 사용자가 없습니다. username과 password를 확인하여 주십시오.")
         attrs["user"] = user
         return attrs
 
