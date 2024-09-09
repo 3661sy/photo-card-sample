@@ -27,7 +27,7 @@ class PhotoCardSaleListCreateView(ListCreateAPIView):
 
     """
     permission_classes = [IsAuthenticated]
-    queryset = Sale.objects.filter(state='ING').annotate(
+    queryset = Sale.objects.filter(state=SaleState.ING).annotate(
         lowest_sale_id=Window(
             expression=FirstValue('id'),
             partition_by=[F('photo_card_id')],
