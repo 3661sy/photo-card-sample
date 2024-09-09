@@ -15,6 +15,8 @@ from photocard.serializers import SaleSerializer, SaleDetailSerializer
 class PhotoCardSaleListCreateView(ListCreateAPIView):
     """
     포토카드 판매목록 조회 및 판매 등록 api
+    ---
+    똑같은 포토카드의 판매 목록이 있을 경우, 최소금액의 판매목록이 조회된다. 판매가가 동일할 경우 가격 수정일시가 더 과거의 건이 조회된다.
 
     Request Field:
         photo_card_id: int

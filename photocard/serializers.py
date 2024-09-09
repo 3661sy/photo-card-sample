@@ -6,7 +6,7 @@ from photocard.models import Sale
 class SaleSerializer(serializers.ModelSerializer):
     photo_card_id = serializers.IntegerField(help_text='포토카드 id')
     create_date = serializers.DateTimeField(read_only=True, help_text='생성일시')
-    renewal_date = serializers.DateTimeField(read_only=True, help_text='수정일시')
+    renewal_date = serializers.DateTimeField(read_only=True, help_text='가격 수정일시')
     
     class Meta:
         model = Sale
